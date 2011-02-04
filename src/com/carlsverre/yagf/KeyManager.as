@@ -35,11 +35,11 @@ package com.carlsverre.yagf
 		}
 		
 		internal function KeyPressed(e:KeyboardEvent):void {
-			keysDown[evt.keyCode] = true;
+			keysDown[e.keyCode] = true;
 		}
 		
 		internal function KeyReleased(e:KeyboardEvent):void {
-			delete keysDown[evt.keyCode];
+			delete keysDown[e.keyCode];
 		}
 	}
 

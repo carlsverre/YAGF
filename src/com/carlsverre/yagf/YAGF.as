@@ -12,17 +12,19 @@ package com.carlsverre.yagf
 		public static const TICKS_PER_SECOND:int = 30;
 		public static const TICK_RATE:Number = 1.0 / Number(TICKS_PER_SECOND);
 		public static const TICK_RATE_MS:Number = TICK_RATE * 1000;
+		public static const MAX_TICKS_PER_FRAME:int = 5;
 		
 		// Singleton support
 		private static var lockInstance:Boolean = true;
 		private static var instance:YAGF;
+		private static var started:Boolean = false;
 		
 		// Time
 		private var lastTime:int = -1;
 		private var elapsed:Number = 0.0;
 		
 		// Managers
-		public var KeyManager:KeyManager;
+		public var KManager:KeyManager;
 		
 		// Game
 		private var game:Game;
@@ -42,26 +44,28 @@ package com.carlsverre.yagf
 		
 		public static function Start(mainClass:Sprite, gameObject:Game):void {
 			if (!mainClass.stage) throw new Error("The mainClass must be added to the stage before you can startup YAGF");
-			if (initialized) throw new Error("YAGF can only be started once.");
+			if (started) throw new Error("YAGF can only be started once.");
+			started = true;
+			
+			Instance.setup(mainClass, gameObject);
+		}
+		
+		internal function setup(mainClass:Sprite, gameObject:Game):void {
+			KManager = KeyManager.Instance;	// setup keyboard systems
+			
+			// setup time stuff for game loop
+			lastTime = -1;
+			elapsed = 0.0;		
 			
 			stage = mainClass.stage;
 			game = gameObject;
 			
-			Instance.setup();
-		}
-		
-		internal function setup():void {
-			this.KeyManager = KeyManager.Instance;	// setup keyboard systems
-			
-			// setup time stuff for game loop
-			lastTime = -1;
-			elapsed = 0.0;
-			
 			stage.addEventListener(Event.ENTER_FRAME, MainLoop);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, KeyManager.KeyPressed);
-			stage.addEventListener(KeyboardEvent.KEY_UP, KeyManager.KeyReleased);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, KeyManager.Instance.KeyPressed);
+			stage.addEventListener(KeyboardEvent.KEY_UP, KeyManager.Instance.KeyReleased);
 			
 			// setup the game
+			stage.addChild(game);
 			game.SetupInternal();
 		}
 		

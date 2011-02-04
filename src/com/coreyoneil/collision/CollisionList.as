@@ -27,11 +27,12 @@ THE SOFTWARE.
 
 package com.coreyoneil.collision
 {	
+	import adobe.utils.CustomActions;
 	import flash.display.DisplayObject;
 	
 	public class CollisionList extends CDK
 	{
-		public function CollisionList(target, ... objs):void 
+		public function CollisionList(target:*, ... objs):void 
 		{
 			addItem(target);
 			
@@ -46,7 +47,7 @@ package com.coreyoneil.collision
 			clearArrays();
 			
 			var NUM_OBJS:uint = objectArray.length;
-			var item1 = DisplayObject(objectArray[0]), item2:DisplayObject;
+			var item1:* = DisplayObject(objectArray[0]), item2:DisplayObject;
 			for(var i:uint = 1; i < NUM_OBJS; i++)
 			{
 				item2 = DisplayObject(objectArray[i]);
@@ -73,7 +74,7 @@ package com.coreyoneil.collision
 			return objectCollisionArray;
 		}
 		
-		public function swapTarget(target):void
+		public function swapTarget(target:*):void
 		{
 			if(target is DisplayObject)
 			{
@@ -85,7 +86,7 @@ package com.coreyoneil.collision
 			}
 		}
 		
-		public override function removeItem(obj):void 
+		public override function removeItem(obj:*):void 
 		{
 			var loc:int = objectArray.indexOf(obj);
 			if(loc > 0)

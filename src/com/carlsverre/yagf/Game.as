@@ -5,6 +5,7 @@ package com.carlsverre.yagf
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
+	import com.coreyoneil.collision.CDK;
 
 	public class Game extends Sprite
 	{	
