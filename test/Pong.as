@@ -8,6 +8,7 @@ package
 	import flash.display.Sprite;
 	import flash.display.Graphics;
 	import com.coreyoneil.collision.CDK;
+	import com.carlsverre.yagf.*;
 
 	public class Pong extends Game
 	{
@@ -61,7 +62,11 @@ package
 		
 		override public function Update(delta:Number):void 
 		{
-			Paddle.x = mouseX - Paddle.width/2;
+			if (isKeyPressed(Key["RIGHT"])) Paddle.x += 5;
+			else if (isKeyPressed(Key["LEFT"])) Paddle.x -= 5;
+			
+			//Paddle.x = mouseX - Paddle.width/2;
+			
 			if (Paddle.x > stage.stageWidth - Paddle.width) {
 				Paddle.x = stage.stageWidth - Paddle.width;
 			} else if (Paddle.x < 0) {

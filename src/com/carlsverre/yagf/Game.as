@@ -9,6 +9,8 @@ package com.carlsverre.yagf
 
 	public class Game extends Sprite
 	{	
+		protected var Key:KeyEnum = new KeyEnum();
+		
 		public function Game() 
 		{
 		}

@@ -1,0 +1,3 @@
+* Rewrite pong to use CDK
+* Add keyboard mapping class to abstract controls and players
+* write spritesheet class

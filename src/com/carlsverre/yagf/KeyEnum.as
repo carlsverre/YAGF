@@ -1,15 +1,15 @@
-package com.carlsverre.yagf.util 
+package com.carlsverre.yagf 
 {
 	import flash.ui.Keyboard;
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	
-	public class Key extends Proxy
+	public class KeyEnum extends Proxy
 	{
 		private static var keys:Object;
 		private static var initialized:Boolean = false;
 		
-		public static function Initialize():void {
+		internal static function Initialize():void {
 			if (initialized) throw new Error("The Key class can only be initialized once");
 			
 			var alphabet:Array = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

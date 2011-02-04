@@ -5,3 +5,7 @@
 /bin/js/swfobject.js
 /obj/YAGFConfig.old
 /obj/YAGFConfig.xml
+/bin/YAGF.flash.swc
+/bin/YAGF.swc
+/obj/YAGF.flash.compc.xml
+/obj/YAGF.flex.compc.xml

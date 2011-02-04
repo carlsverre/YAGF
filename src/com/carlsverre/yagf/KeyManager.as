@@ -1,7 +1,6 @@
 package com.carlsverre.yagf 
 {
 	import flash.events.KeyboardEvent;
-	import com.carlsverre.yagf.util.Key;
 	
 	public class KeyManager
 	{
@@ -27,7 +26,7 @@ package com.carlsverre.yagf
 			keysDown = new Object();
 			
 			// initialize key tracking class
-			Key.Initialize();
+			KeyEnum.Initialize();
 		}
 		
 		public function isDown(keyCode:uint):Boolean {
