@@ -27,11 +27,11 @@ package
 		override public function Setup():void 
 		{
 			KeyManager.Instance.AddKeyBinding({
-				menu: Key.ByName("ESC")
+				menu: Key.ESCAPE
 			});
 			KeyManager.Instance.AddKeyBinding({
-				left: Key.ByName("LEFT"),
-				right: Key.ByName("RIGHT")
+				left: Key.LEFT,
+				right: Key.RIGHT
 			}, PLAYER1);
 			
 			Paddle = drawPaddle(createObject());

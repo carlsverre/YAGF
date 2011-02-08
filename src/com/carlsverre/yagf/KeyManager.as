@@ -28,9 +28,6 @@ package com.carlsverre.yagf
 		private function setup():void {
 			keysDown = new Object();
 			keyMap = new Dictionary();
-			
-			// initialize key tracking class
-			Key.Initialize();
 		}
 		
 		/**
