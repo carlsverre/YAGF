@@ -15,36 +15,30 @@ package
 		{
 			velocity = new Point(velocityX, velocityY);
 			lastPosition = new Point(0, 0);
+			
+			trace("Ball Velocity: ", velocity);
 		
 			draw(color, radius);
 		}
 		
 		private function draw(color:uint, radius:int):void {
 			this.graphics.beginFill(color);
-			this.graphics.drawCircle(0, 0, radius);
+			this.graphics.drawCircle(radius, radius, radius);
 			this.graphics.endFill();
 		}
 		
-		public function Update():void {
+		public function Update(delta:Number):void {
 			lastPosition.x = x;
 			lastPosition.y = y;
 			
-			x += velocity.x;
-			y += velocity.y;
+			x += velocity.x * delta;
+			y += velocity.y * delta;
 			
-			if (x < 0) {
-				x = 0;
-				BounceHorizontal();
-			} else if (x > stage.stageWidth - width) {
-				x = stage.stageWidth - width;
+			if (x < 0 || x > stage.stageWidth - width) {
 				BounceHorizontal();
 			}
 				
-			if (y < 0) {
-				y = 0;
-				BounceVertical();
-			} else if (y > stage.stageHeight - height) {
-				y = stage.stageHeight - width;
+			if (y < 0 || y > stage.stageHeight - height) {
 				BounceVertical();
 			}
 		}

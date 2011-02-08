@@ -3,20 +3,28 @@ package
 	import com.carlsverre.yagf.Game;
 	import com.coreyoneil.collision.CollisionGroup;
 	import com.coreyoneil.collision.CollisionList;
+	import flash.display.DisplayObject;
 	import flash.events.KeyboardEvent;
 	import com.carlsverre.yagf.YAGF;
 	import flash.display.Sprite;
 	import flash.display.Graphics;
 	import com.coreyoneil.collision.CDK;
 	import com.carlsverre.yagf.*;
+	import flash.text.TextField;
 
 	public class Pong extends Game
 	{
 		// collisions
 		private var mainCollisionList:CollisionList;
+		private var brickCollisionList:CollisionList;
 		
 		private var ball:Ball;
 		private var paddle:Paddle;
+		
+		private var bricks:Array;
+		
+		private var scoreTF:SimpleTF;
+		private var score:int = 0;
 		
 		public function Pong() 
 		{}
@@ -31,8 +39,8 @@ package
 				right: Key.RIGHT
 			}, KeyManager.PLAYER1);
 			
-			paddle = new Paddle();
-			ball = new Ball(Math.random() * 3 + 2, Math.random() * 3 + 2);
+			paddle = new Paddle(200);
+			ball = new Ball(Math.random() * 150 + 100, Math.random() * 150 + 100);		// atleast 10 pixels per second
 			
 			ball.x = stage.stageWidth / 2;
 			ball.y = stage.stageHeight / 2;
@@ -44,20 +52,82 @@ package
 			addChild(ball);
 			
 			mainCollisionList = new CollisionList(paddle, ball);
+			brickCollisionList = new CollisionList(ball);
+			
+			createBricks(10, 10);
+			
+			createScore();
+		}
+		
+		private function createBricks(rows:int, columns:int):void {
+			var brickWidth:Number = stage.stageWidth / columns;
+			var brickMargin:Number = 5;
+			var brickHeight:Number = 30;
+			
+			bricks = [];
+			
+			for (var y:int = 0; y < rows; y++) {
+				for (var x:int = 0; x < columns; x++) {
+					var color:uint = 0xffffff * Math.random();
+					if (color > 0xdddddd) color -= 0x222222;
+					var brick:Brick = new Brick(brickWidth - brickMargin, brickHeight - brickMargin, color);
+					brick.x = x * brickWidth + brickMargin;
+					brick.y = y * brickHeight + brickMargin;
+					addChild(brick);
+					brickCollisionList.addItem(brick);
+					
+					bricks[x + y * columns] = brick;
+				}
+			}
+		}
+		
+		private function createScore():void {
+			scoreTF = new SimpleTF();
+			addChild(scoreTF);
+			
+			scoreTF.Size.x = 200;
+			scoreTF.FontColor = 0x333333;
+			scoreTF.Font = "Impact";
+			
+			updateScore();
+			
+			var margin:int = 10;
+			scoreTF.x = margin;
+			scoreTF.y = stage.stageHeight - scoreTF.textHeight - margin;
+		}
+		
+		private function updateScore(newScore:int = 0 ):void {
+			scoreTF.Text = "Score: "+newScore;
+			scoreTF.Redraw();
 		}
 		
 		override public function Update(delta:Number):void 
 		{
 			// update game objects
-			paddle.Update();
-			ball.Update();
+			paddle.Update(delta);
+			ball.Update(delta);
 			
 			// do collisions
-			var collisions:Array = mainCollisionList.checkCollisions();
-			if (collisions.length > 0) {
+			var ballPaddleCollisions:Array = mainCollisionList.checkCollisions();
+			if (ballPaddleCollisions.length > 0) {
 				// there has been a collision between the paddle and the ball
-				var collision:Object = collisions[0];
+				var collision:Object = ballPaddleCollisions[0];
 				ball.BounceVertical();
+			}
+			
+			var brickCollisions:Array = brickCollisionList.checkCollisions();
+			var brick:DisplayObject;
+			for each (var c:Object in brickCollisions) {
+				if (c.object1 != ball) brick = c.object1;
+				else brick = c.object2;
+				
+				ball.BounceVertical();
+				
+				removeChild(brick);
+				brickCollisionList.removeItem(brick);
+				
+				score++;
+				updateScore(score);
 			}
 		}
 		

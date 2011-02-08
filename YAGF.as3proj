@@ -5,7 +5,7 @@
     <movie disabled="False" />
     <movie input="" />
     <movie path="bin\YAGF.swf" />
-    <movie fps="30" />
+    <movie fps="31" />
     <movie width="800" />
     <movie height="600" />
     <movie version="10" />

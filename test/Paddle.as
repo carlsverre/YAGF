@@ -9,8 +9,11 @@ package
 	 */
 	public class Paddle extends Sprite
 	{	
-		public function Paddle(color:uint = 0x0000ff, width:int = 100) 
+		private var speed:Number;
+		
+		public function Paddle(speed:Number, color:uint = 0x0000ff, width:int = 100) 
 		{
+			this.speed = speed;
 			draw(color, width);
 		}
 		
@@ -20,12 +23,12 @@ package
 			this.graphics.endFill();
 		}
 		
-		public function Update():void {
+		public function Update(delta:Number):void {
 			if (KeyManager.actionPressed("right", KeyManager.PLAYER1)) {
-				x += 5;
+				x += speed * delta;
 			}
 			if (KeyManager.actionPressed("left", KeyManager.PLAYER1)) {
-				x -= 5;
+				x -= speed * delta;
 			}
 			
 			if (x < 0)

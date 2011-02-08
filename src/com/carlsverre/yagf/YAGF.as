@@ -9,7 +9,7 @@ package com.carlsverre.yagf
 	public class YAGF 
 	{
 		// These variables are taken from PushButtonEngine
-		private static const TICKS_PER_SECOND:int = 30;
+		private static const TICKS_PER_SECOND:int = 31;
 		private static const TICK_RATE:Number = 1.0 / Number(TICKS_PER_SECOND);
 		private static const TICK_RATE_MS:Number = TICK_RATE * 1000;
 		private static const MAX_TICKS_PER_FRAME:int = 5;
@@ -77,13 +77,14 @@ package com.carlsverre.yagf
 			}
 			
 			var deltaTime:Number = Number(currentTime - lastTime);
+			var deltaTimeInSeconds:Number = deltaTime / 1000;
 			
 			// update elapsed time
 			elapsed += deltaTime;
 			
 			var tickCount:int = 0;
 			while (elapsed >= TICK_RATE_MS && tickCount < MAX_TICKS_PER_FRAME) {
-				game.UpdateInternal(deltaTime);
+				game.UpdateInternal(deltaTimeInSeconds);
 				
 				elapsed -= TICK_RATE_MS;
 				tickCount++;
