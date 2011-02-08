@@ -11,6 +11,12 @@ package com.carlsverre.yagf
 		
 		private var keyMap:Dictionary;
 		
+		public static const KBGLOBAL:int = 0;
+		public static const PLAYER1:int = 1;
+		public static const PLAYER2:int = 2;
+		public static const PLAYER3:int = 3;
+		public static const PLAYER4:int = 4;
+		
 		public function KeyManager() 
 		{
 			if (lockInstance) throw new Error("KeyManager is a singleton, use KeyManager.Instance() rather than new KeyManager");
@@ -43,13 +49,25 @@ package com.carlsverre.yagf
 			}
 		}
 		
+		public static function AddKeyBinding(keybinding:Object, player:int = 0):void {
+			Instance.AddKeyBinding(keybinding, player);
+		}
+		
 		public function IsDown(keyCode:uint):Boolean {
 			return Boolean(keyCode in keysDown);
 		}
 		
-		public function IsKeybindingDown(action:String, player:int = 0):Boolean {
+		public function IsKeybindingDown(action:String, player:int = KBGLOBAL):Boolean {
 			if (!(player in keyMap)) throw new Error("keyMap does not contain keybindings for player #" + player);
 			return IsDown(keyMap[player][action]);
+		}
+		
+		public static function keyIsPressed(keyCode:uint):Boolean {
+			return Instance.IsDown(keyCode);
+		}
+		
+		public static function actionPressed(keybinding:String, player:int = KBGLOBAL):Boolean {
+			return Instance.IsKeybindingDown(keybinding, player);
 		}
 		
 		internal function KeyPressed(e:KeyboardEvent):void {

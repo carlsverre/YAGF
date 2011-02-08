@@ -9,11 +9,6 @@ package com.carlsverre.yagf
 
 	public class Game extends Sprite
 	{
-		protected const KBGLOBAL:int = 0;
-		protected const PLAYER1:int = 1;
-		protected const PLAYER2:int = 2;
-		protected const PLAYER3:int = 3;
-		protected const PLAYER4:int = 4;
 		
 		public function Game() 
 		{
@@ -26,16 +21,6 @@ package com.carlsverre.yagf
 		
 		internal function UpdateInternal(delta:Number):void {
 			Update(delta);
-		}
-		
-		// Utility API methods
-		
-		protected function keyIsPressed(keyCode:uint):Boolean {
-			return KeyManager.Instance.IsDown(keyCode);
-		}
-		
-		protected function keybindingPressed(keybinding:String, player:int = KBGLOBAL):Boolean {
-			return KeyManager.Instance.IsKeybindingDown(keybinding, player);
 		}
 		
 		// Overridable API
