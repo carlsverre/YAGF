@@ -9,10 +9,10 @@ package com.carlsverre.yagf
 	public class YAGF 
 	{
 		// These variables are taken from PushButtonEngine
-		public static const TICKS_PER_SECOND:int = 30;
-		public static const TICK_RATE:Number = 1.0 / Number(TICKS_PER_SECOND);
-		public static const TICK_RATE_MS:Number = TICK_RATE * 1000;
-		public static const MAX_TICKS_PER_FRAME:int = 5;
+		private static const TICKS_PER_SECOND:int = 30;
+		private static const TICK_RATE:Number = 1.0 / Number(TICKS_PER_SECOND);
+		private static const TICK_RATE_MS:Number = TICK_RATE * 1000;
+		private static const MAX_TICKS_PER_FRAME:int = 5;
 		
 		// Singleton support
 		private static var lockInstance:Boolean = true;

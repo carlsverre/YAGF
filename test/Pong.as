@@ -26,6 +26,14 @@ package
 		
 		override public function Setup():void 
 		{
+			KeyManager.Instance.AddKeyBinding({
+				menu: Key.ByName("ESC")
+			});
+			KeyManager.Instance.AddKeyBinding({
+				left: Key.ByName("LEFT"),
+				right: Key.ByName("RIGHT")
+			}, PLAYER1);
+			
 			Paddle = drawPaddle(createObject());
 			Ball = drawBall(createObject());
 			
@@ -62,8 +70,8 @@ package
 		
 		override public function Update(delta:Number):void 
 		{
-			if (isKeyPressed(Key["RIGHT"])) Paddle.x += 5;
-			else if (isKeyPressed(Key["LEFT"])) Paddle.x -= 5;
+			if (keybindingPressed("right", PLAYER1)) Paddle.x += 5;
+			else if (keybindingPressed("left", PLAYER1)) Paddle.x -= 5;
 			
 			//Paddle.x = mouseX - Paddle.width/2;
 			

@@ -8,8 +8,12 @@ package com.carlsverre.yagf
 	import com.coreyoneil.collision.CDK;
 
 	public class Game extends Sprite
-	{	
-		protected var Key:KeyEnum = new KeyEnum();
+	{
+		protected const KBGLOBAL:int = 0;
+		protected const PLAYER1:int = 1;
+		protected const PLAYER2:int = 2;
+		protected const PLAYER3:int = 3;
+		protected const PLAYER4:int = 4;
 		
 		public function Game() 
 		{
@@ -26,8 +30,12 @@ package com.carlsverre.yagf
 		
 		// Utility API methods
 		
-		protected function isKeyPressed(keyCode:uint):Boolean {
-			return KeyManager.Instance.isDown(keyCode);
+		protected function keyIsPressed(keyCode:uint):Boolean {
+			return KeyManager.Instance.IsDown(keyCode);
+		}
+		
+		protected function keybindingPressed(keybinding:String, player:int = KBGLOBAL):Boolean {
+			return KeyManager.Instance.IsKeybindingDown(keybinding, player);
 		}
 		
 		// Overridable API

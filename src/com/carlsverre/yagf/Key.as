@@ -4,7 +4,7 @@ package com.carlsverre.yagf
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	
-	public class KeyEnum extends Proxy
+	public class Key
 	{
 		private static var keys:Object;
 		private static var initialized:Boolean = false;
@@ -26,7 +26,7 @@ package com.carlsverre.yagf
 			initialized = true;
 		}
 		
-		flash_proxy override function getProperty(name:*):* {
+		public static function ByName(name:String):int {
 			var key:int = (name in Keyboard) ? Keyboard[name] : -1;
 			if (key == -1 && (name in keys)) key = keys[name];
 			return key;
