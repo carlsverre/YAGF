@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SWCProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <FlexBinPath>.\swc\YAGF.swc</FlexBinPath>
+  <FlexBinPath>C:\Users\Carl\Desktop\Repos\YAGF\bin\YAGF.swc</FlexBinPath>
   <FlashBinPath>.\swc\YAGF.flash.swc</FlashBinPath>
   <FlexIncludeASI>false</FlexIncludeASI>
-  <MakeCS3>true</MakeCS3>
+  <MakeCS3>false</MakeCS3>
   <MakeMXI>false</MakeMXI>
   <IntegrateAsDoc>true</IntegrateAsDoc>
   <LaunchAEM>false</LaunchAEM>
