@@ -1,2 +1,1 @@
-* Rewrite pong to use CDK
 * write spritesheet class
