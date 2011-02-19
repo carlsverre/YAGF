@@ -22,9 +22,11 @@ package com.carlsverre.yagf
 		// Time
 		private var lastTime:int = -1;
 		private var elapsed:Number = 0.0;
+		private var pauseLoop:Boolean = false;
 		
 		// Managers
 		public var KManager:KeyManager;
+		public var SSManager:SpriteSheetManager;
 		
 		// Game
 		private var game:Game;
@@ -35,7 +37,7 @@ package com.carlsverre.yagf
 			if (lockInstance) throw new Error("YAGF is a singleton, use YAGF.Instance() rather than new YAGF");
 		}
 		
-		internal static function get Instance():YAGF {
+		public static function get Instance():YAGF {
 			lockInstance = false;
 			if (instance == null) instance = new YAGF();
 			lockInstance = true;
@@ -52,6 +54,7 @@ package com.carlsverre.yagf
 		
 		internal function setup(mainClass:Sprite, gameObject:Game):void {
 			KManager = KeyManager.Instance;	// setup keyboard systems
+			SSManager = new SpriteSheetManager();
 			
 			// setup time stuff for game loop
 			lastTime = -1;
@@ -69,7 +72,20 @@ package com.carlsverre.yagf
 			game.SetupInternal();
 		}
 		
-		public function MainLoop(e:Event):void {
+		internal function SwitchGame(newGame:Game):void {
+			pauseLoop = true;
+			
+			game.ShutdownInternal();
+			stage.removeChild(game);
+			game = newGame;
+			newGame.SetupInternal();
+			
+			pauseLoop = false;
+		}
+		
+		internal function MainLoop(e:Event):void {
+			if (pauseLoop) return;
+			
 			var currentTime:Number = getTimer();
 			if (lastTime < 0) {
 				lastTime = currentTime;

@@ -3,6 +3,7 @@ package
 	import com.carlsverre.yagf.Game;
 	import com.coreyoneil.collision.CollisionGroup;
 	import com.coreyoneil.collision.CollisionList;
+	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.events.KeyboardEvent;
 	import com.carlsverre.yagf.YAGF;
@@ -10,16 +11,18 @@ package
 	import flash.display.Graphics;
 	import com.coreyoneil.collision.CDK;
 	import com.carlsverre.yagf.*;
+	import com.carlsverre.yagf.YAGF;
 	import flash.text.TextField;
 
 	public class Pong extends Game
-	{
+	{	
 		// collisions
 		private var mainCollisionList:CollisionList;
 		private var brickCollisionList:CollisionList;
 		
 		private var ball:Ball;
 		private var paddle:Paddle;
+		private var background:Bitmap;
 		
 		private var bricks:Array;
 		
@@ -57,6 +60,13 @@ package
 			createBricks(10, 10);
 			
 			createScore();
+		}
+		
+		override public function Shutdown():void 
+		{
+			while (numChildren > 0) {
+				removeChildAt(0);
+			}
 		}
 		
 		private function createBricks(rows:int, columns:int):void {

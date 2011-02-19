@@ -19,12 +19,18 @@ package com.carlsverre.yagf
 			Setup();
 		}
 		
+		internal function ShutdownInternal():void {
+			Shutdown();
+		}
+		
 		internal function UpdateInternal(delta:Number):void {
 			Update(delta);
 		}
 		
 		// Overridable API
-		public function Setup():void {}
+		public function Setup():void { }
+		
+		public function Shutdown():void { }
 		
 		public function OnMouseDown(e:MouseEvent):void {}
 		
