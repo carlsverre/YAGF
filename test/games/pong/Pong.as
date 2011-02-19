@@ -1,4 +1,4 @@
-package 
+package games.pong
 {
 	import com.carlsverre.yagf.Game;
 	import com.coreyoneil.collision.CollisionGroup;
@@ -64,6 +64,7 @@ package
 		
 		override public function Shutdown():void 
 		{
+			KeyManager.RemoveAllKeyBindings();
 			while (numChildren > 0) {
 				removeChildAt(0);
 			}

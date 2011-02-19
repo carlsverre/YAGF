@@ -72,11 +72,16 @@ package com.carlsverre.yagf
 			game.SetupInternal();
 		}
 		
-		internal function SwitchGame(newGame:Game):void {
+		public function SwitchGame(newGame:Game):void {
 			pauseLoop = true;
 			
 			game.ShutdownInternal();
+			
+			// Maintain the layer position of the last game
+			stage.addChild(newGame);
+			stage.swapChildren(game, newGame);
 			stage.removeChild(game);
+			
 			game = newGame;
 			newGame.SetupInternal();
 			
@@ -101,6 +106,7 @@ package com.carlsverre.yagf
 			var tickCount:int = 0;
 			while (elapsed >= TICK_RATE_MS && tickCount < MAX_TICKS_PER_FRAME) {
 				game.UpdateInternal(deltaTimeInSeconds);
+				KManager.Update();	// this needs to run after each game update
 				
 				elapsed -= TICK_RATE_MS;
 				tickCount++;

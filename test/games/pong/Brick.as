@@ -1,4 +1,4 @@
-package  
+package games.pong
 {
 	import flash.display.Sprite;
 	/**

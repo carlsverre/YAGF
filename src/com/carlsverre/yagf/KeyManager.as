@@ -6,6 +6,7 @@ package com.carlsverre.yagf
 	public class KeyManager
 	{
 		private static var keysDown:Object;
+		private static var keysUpSinceLastUpdate:Array;
 		private static var lockInstance:Boolean = true;
 		private static var instance:KeyManager;
 		
@@ -32,8 +33,9 @@ package com.carlsverre.yagf
 		}
 		
 		private function setup():void {
-			keysDown = new Object();
+			keysDown = { };
 			keyMap = new Dictionary();
+			keysUpSinceLastUpdate = [];
 		}
 		
 		/**
@@ -41,7 +43,7 @@ package com.carlsverre.yagf
 		 * @param	keybinding		a object which defines a set of properties which map to any valid key (ex: Key["LEFT"])
 		 * @param	player			if you want to assign keybindings to a specific player, use any number above 0 (0 is global keybindings)
 		 */
-		public function AddKeyBinding(keybinding:Object, player:int = 0):void {
+		public function AddKeyBinding(keybinding:Object, player:int = KBGLOBAL):void {
 			if (keyMap[player] != null) {
 				Util.Merge(keyMap[player], keybinding);
 			} else {
@@ -49,12 +51,32 @@ package com.carlsverre.yagf
 			}
 		}
 		
-		public static function AddKeyBinding(keybinding:Object, player:int = 0):void {
+		public function RemoveKeyBinding(player:int = KBGLOBAL):void {
+			delete keyMap[player];
+		}
+		
+		public function RemoveAllKeyBindings():void {
+			keyMap = new Dictionary();
+		}
+		
+		public static function AddKeyBinding(keybinding:Object, player:int = KBGLOBAL):void {
 			Instance.AddKeyBinding(keybinding, player);
+		}
+		
+		public static function RemoveKeyBinding(player:int = KBGLOBAL):void {
+			Instance.RemoveKeyBinding(player);
+		}
+		
+		public static function RemoveAllKeyBindings():void {
+			Instance.RemoveAllKeyBindings();
 		}
 		
 		public function IsDown(keyCode:uint):Boolean {
 			return Boolean(keyCode in keysDown);
+		}
+		
+		public function WasReleased(keyCode:uint):Boolean {
+			return Boolean((keysUpSinceLastUpdate.indexOf(keyCode) != -1));
 		}
 		
 		public function IsKeybindingDown(action:String, player:int = KBGLOBAL):Boolean {
@@ -62,12 +84,25 @@ package com.carlsverre.yagf
 			return IsDown(keyMap[player][action]);
 		}
 		
-		public static function keyIsPressed(keyCode:uint):Boolean {
+		public function WasKeybindingReleased(action:String, player:int = KBGLOBAL):Boolean {
+			if (!(player in keyMap)) throw new Error("keyMap does not contain keybindings for player #" + player);
+			return WasReleased(keyMap[player][action]);
+		}
+		
+		public static function KeyIsPressed(keyCode:uint):Boolean {
 			return Instance.IsDown(keyCode);
 		}
 		
-		public static function actionPressed(keybinding:String, player:int = KBGLOBAL):Boolean {
+		public static function KeyWasReleased(keyCode:uint):Boolean {
+			return Instance.WasReleased(keyCode);
+		}
+		
+		public static function ActionPressed(keybinding:String, player:int = KBGLOBAL):Boolean {
 			return Instance.IsKeybindingDown(keybinding, player);
+		}
+		
+		public static function ActionReleased(keybinding:String, player:int = KBGLOBAL):Boolean {
+			return Instance.WasKeybindingReleased(keybinding, player);
 		}
 		
 		internal function KeyPressed(e:KeyboardEvent):void {
@@ -76,6 +111,11 @@ package com.carlsverre.yagf
 		
 		internal function KeyReleased(e:KeyboardEvent):void {
 			delete keysDown[e.keyCode];
+			keysUpSinceLastUpdate.push(e.keyCode);
+		}
+		
+		internal function Update():void {
+			keysUpSinceLastUpdate.splice(0);
 		}
 	}
 

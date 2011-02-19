@@ -1,1 +1,7 @@
-* write spritesheet class
+* write Sprite Sheet Demo Game
+* clean up the API
+* add comments
+* Move test games to seperate package?
+	* then maybe add proper tests?
+* Potential resource manager?
+* Show how to load resources from a SWF? FLA library

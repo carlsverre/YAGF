@@ -1,10 +1,7 @@
-package  
+package  games.spritesheetdemo
 {
 	import com.carlsverre.yagf.Game;
-	/**
-	 * ...
-	 * @author 
-	 */
+	
 	public class SpriteSheetDemoGame extends Game
 	{
 		

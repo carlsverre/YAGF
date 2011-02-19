@@ -1,4 +1,4 @@
-package  
+package games.pong
 {
 	import flash.display.Sprite;
 	import flash.geom.Point;
@@ -24,10 +24,10 @@ package
 		}
 		
 		public function Update(delta:Number):void {
-			if (KeyManager.actionPressed("right", KeyManager.PLAYER1)) {
+			if (KeyManager.ActionPressed("right", KeyManager.PLAYER1)) {
 				x += speed * delta;
 			}
-			if (KeyManager.actionPressed("left", KeyManager.PLAYER1)) {
+			if (KeyManager.ActionPressed("left", KeyManager.PLAYER1)) {
 				x -= speed * delta;
 			}
 			
