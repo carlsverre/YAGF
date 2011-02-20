@@ -20,6 +20,10 @@ package com.carlsverre.yagf
 			delete spriteSheets[name];
 		}
 		
+		public function ClearSpriteSheets():void {
+			spriteSheets = new Dictionary();
+		}
+		
 		public function GetSpriteSheet(name:String):SpriteSheet {
 			return spriteSheets[name];
 		}

@@ -1,4 +1,6 @@
 * write Sprite Sheet Demo Game
+* create AnimatedSprite class (with animation logic)
+* Add draw loop on top of update loop?  This will result in cleaner code and smoother drawing...  I vote, yes!
 * clean up the API
 * add comments
 * Move test games to seperate package?
