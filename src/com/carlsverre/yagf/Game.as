@@ -27,8 +27,8 @@ package com.carlsverre.yagf
 			Update(delta);
 		}
 		
-		internal function DrawInternal(delta:Number):void {
-			Draw(delta);
+		internal function DrawInternal():void {
+			Draw();
 		}
 		
 		// Overridable API
@@ -46,7 +46,7 @@ package com.carlsverre.yagf
 		
 		public function Update(delta:Number):void { }
 		
-		public function Draw(delta:Number):void { }
+		public function Draw():void { }
 		
 	}
 

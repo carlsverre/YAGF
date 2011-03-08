@@ -141,7 +141,7 @@ package games.pong
 			}
 		}
 		
-		override public function Draw(delta:Number):void 
+		override public function Draw():void 
 		{
 			updateScore(score);
 		}

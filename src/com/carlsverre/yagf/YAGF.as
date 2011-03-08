@@ -105,7 +105,7 @@ package com.carlsverre.yagf
 			overSleepTime = deltaTime - sleepTime;
 			
 			game.UpdateInternal(deltaTimeInSeconds);
-			game.Draw(deltaTimeInSeconds);
+			game.Draw();
 			
 			afterTime = getTimer();
 			timeDiff = afterTime - beforeTime;
