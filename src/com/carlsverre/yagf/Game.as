@@ -27,6 +27,10 @@ package com.carlsverre.yagf
 			Update(delta);
 		}
 		
+		internal function DrawInternal(delta:Number):void {
+			Draw(delta);
+		}
+		
 		// Overridable API
 		public function Setup():void { }
 		
@@ -40,7 +44,9 @@ package com.carlsverre.yagf
 		
 		public function OnKeyUp(e:KeyboardEvent):void {}
 		
-		public function Update(delta:Number):void {}
+		public function Update(delta:Number):void { }
+		
+		public function Draw(delta:Number):void { }
 		
 	}
 

@@ -43,7 +43,7 @@ package games.pong
 			}, KeyManager.PLAYER1);
 			
 			paddle = new Paddle(200);
-			ball = new Ball(Math.random() * 150 + 100, Math.random() * 150 + 100);		// atleast 10 pixels per second
+			ball = new Ball(Math.random() * 100 + 100, Math.random() * 100 + 100);		// atleast 10 pixels per second
 			
 			ball.x = stage.stageWidth / 2;
 			ball.y = stage.stageHeight / 2;
@@ -138,8 +138,12 @@ package games.pong
 				brickCollisionList.removeItem(brick);
 				
 				score++;
-				updateScore(score);
 			}
+		}
+		
+		override public function Draw(delta:Number):void 
+		{
+			updateScore(score);
 		}
 		
 	}

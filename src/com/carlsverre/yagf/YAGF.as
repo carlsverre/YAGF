@@ -4,15 +4,13 @@ package com.carlsverre.yagf
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.events.TimerEvent;
 	import flash.utils.getTimer;
+	import flash.utils.Timer;
 	
 	public class YAGF 
 	{
-		// These variables are taken from PushButtonEngine
-		private static const TICKS_PER_SECOND:int = 31;
-		private static const TICK_RATE:Number = 1.0 / Number(TICKS_PER_SECOND);
-		private static const TICK_RATE_MS:Number = TICK_RATE * 1000;
-		private static const MAX_TICKS_PER_FRAME:int = 5;
+		public static const FRAME_RATE:int = 40;
 		
 		// Singleton support
 		private static var lockInstance:Boolean = true;
@@ -20,9 +18,17 @@ package com.carlsverre.yagf
 		private static var started:Boolean = false;
 		
 		// Time
-		private var lastTime:int = -1;
-		private var elapsed:Number = 0.0;
-		private var pauseLoop:Boolean = false;
+		private var freezeLoop:Boolean = false;
+		private var gameTimer:Timer;
+		private var period:Number = 1000 / FRAME_RATE;
+		private var beforeTime:int = 0;
+		private var afterTime:int = 0;
+		private var deltaTime:int = 0;
+		private var deltaTimeInSeconds:Number = 0;
+		private var timeDiff:int = 0;
+		private var sleepTime:int = 0;
+		private var overSleepTime:int = 0;
+		private var excess:int = 0;
 		
 		// Managers
 		public var KManager:KeyManager;
@@ -56,14 +62,16 @@ package com.carlsverre.yagf
 			KManager = KeyManager.Instance;	// setup keyboard systems
 			SSManager = new SpriteSheetManager();
 			
-			// setup time stuff for game loop
-			lastTime = -1;
-			elapsed = 0.0;		
+			// setup time stuff for game loop	
+			gameTimer = new Timer(period, 1);
+			afterTime = getTimer();
 			
 			stage = mainClass.stage;
 			game = gameObject;
 			
-			stage.addEventListener(Event.ENTER_FRAME, MainLoop);
+			gameTimer.addEventListener(TimerEvent.TIMER, MainLoop);
+			gameTimer.start();
+			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, KeyManager.Instance.KeyPressed);
 			stage.addEventListener(KeyboardEvent.KEY_UP, KeyManager.Instance.KeyReleased);
 			
@@ -73,7 +81,7 @@ package com.carlsverre.yagf
 		}
 		
 		public function SwitchGame(newGame:Game):void {
-			pauseLoop = true;
+			freezeLoop = true;
 			
 			game.ShutdownInternal();
 			
@@ -85,34 +93,38 @@ package com.carlsverre.yagf
 			game = newGame;
 			newGame.SetupInternal();
 			
-			pauseLoop = false;
+			freezeLoop = false;
 		}
 		
-		internal function MainLoop(e:Event):void {
-			if (pauseLoop) return;
+		internal function MainLoop(e:TimerEvent):void {
+			if (freezeLoop) return;
 			
-			var currentTime:Number = getTimer();
-			if (lastTime < 0) {
-				lastTime = currentTime;
-				return;
+			beforeTime = getTimer();
+			deltaTime = beforeTime - afterTime;
+			deltaTimeInSeconds = deltaTime / 1000;
+			overSleepTime = deltaTime - sleepTime;
+			
+			game.UpdateInternal(deltaTimeInSeconds);
+			game.Draw(deltaTimeInSeconds);
+			
+			afterTime = getTimer();
+			timeDiff = afterTime - beforeTime;
+			sleepTime = (period - timeDiff) - overSleepTime;
+			if (sleepTime <= 0) {
+				excess -= sleepTime;
+				sleepTime = 2;
+			}
+			gameTimer.reset();
+			gameTimer.delay = sleepTime;
+			gameTimer.start();
+			
+			while (excess > period) {
+				excess -= period;
 			}
 			
-			var deltaTime:Number = Number(currentTime - lastTime);
-			var deltaTimeInSeconds:Number = deltaTime / 1000;
+			KManager.Update();
 			
-			// update elapsed time
-			elapsed += deltaTime;
-			
-			var tickCount:int = 0;
-			while (elapsed >= TICK_RATE_MS && tickCount < MAX_TICKS_PER_FRAME) {
-				game.UpdateInternal(deltaTimeInSeconds);
-				KManager.Update();	// this needs to run after each game update
-				
-				elapsed -= TICK_RATE_MS;
-				tickCount++;
-			}
-			
-			lastTime = currentTime;
+			e.updateAfterEvent();
 		}
 	}
 
