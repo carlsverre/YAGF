@@ -92,7 +92,7 @@ package com.coreyoneil.collision
 			_returnAngleType = "RADIANS";
 		}
 		
-		public function addItem(obj:*):void 
+		public function addItem(obj):void 
 		{
 			if(obj is DisplayObject)
 			{
@@ -104,7 +104,7 @@ package com.coreyoneil.collision
 			}
 		}
 		
-		public function removeItem(obj:*):void 
+		public function removeItem(obj):void 
 		{
 			var loc:int = objectArray.indexOf(obj);
 			if(loc > -1) 
@@ -169,7 +169,7 @@ package com.coreyoneil.collision
 			objectCollisionArray = [];
 		}
 		
-		protected function findCollisions(item1:*, item2:*):void
+		protected function findCollisions(item1, item2):void
 		{
 			var item1_isText:Boolean = false, item2_isText:Boolean = false;
 			var item1xDiff:Number, item1yDiff:Number;
@@ -200,7 +200,7 @@ package com.coreyoneil.collision
 			
 			transMatrix1 = item1.transform.matrix;
 			
-			var currentObj:* = item1;
+			var currentObj = item1;
 			while(currentObj.parent != null)
 			{
 				transMatrix1.concat(currentObj.parent.transform.matrix);
